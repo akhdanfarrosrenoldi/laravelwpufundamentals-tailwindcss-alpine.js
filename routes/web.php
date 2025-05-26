@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
 
 Route::get('/', function () {
     return view('home', ['title' => 'Home Page']);
@@ -12,48 +13,12 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['title' => 'Blog Page', 'posts' => [
-        [
-            'id' => 1,
-            'slug' => "judul-artikel-1",
-            'title' => 'Judul Artikel 1',
-            'author' => 'Akhdan Farros Renoldi',
-            'body' => 'Do culpa et id velit ipsum quis exercitation sint. Aute eiusmod ad magna cupidatat quis sunt sit mollit eu velit in magna eiusmod. Nisi cillum ea cillum pariatur minim dolor exercitation ad mollit. Voluptate est. ',
-        ],
-
-        [
-            'id' => 2,
-            'slug' => "judul-artikel-2",
-            'title' => 'Judul Artikel 2',
-            'author' => 'Akhdan Farros Renoldi',
-            'body' => 'Amet qui adipisicing adipisicing excepteur quis officia id consectetur excepteur do. Amet id proident labore incididunt amet proident nisi. Proident incididunt Lorem sint quis deserunt deserunt amet quis commodo dolore incididunt voluptate id. Veniam fugiat ut elit ipsum mollit anim quis.'
-        ],
-    ]]);
+    return view('posts', ['title' => 'Blog Page', 'posts' => Post::all()]);
 });
 
-
-Route::get('/posts/{slug}', function ($slug) {
-    $posts = [
-        [
-            'id' => 1,
-            'slug' => "judul-artikel-1",
-            'title' => 'Judul Artikel 1',
-            'author' => 'Akhdan Farros Renoldi',
-            'body' => 'Do culpa et id velit ipsum quis exercitation sint. Aute eiusmod ad magna cupidatat quis sunt sit mollit eu velit in magna eiusmod. Nisi cillum ea cillum pariatur minim dolor exercitation ad mollit. Voluptate est. ',
-        ],
-
-        [
-            'id' => 2,
-            'slug' => "judul-artikel-2",
-            'title' => 'Judul Artikel 2',
-            'author' => 'Akhdan Farros Renoldi',
-            'body' => 'Amet qui adipisicing adipisicing excepteur quis officia id consectetur excepteur do. Amet id proident labore incididunt amet proident nisi. Proident incididunt Lorem sint quis deserunt deserunt amet quis commodo dolore incididunt voluptate id. Veniam fugiat ut elit ipsum mollit anim quis.'
-        ],
-    ];
-    // Find the post by ID
-    $post = Arr::first($posts, function ($post) use ($slug) {
-        return $post['slug'] == $slug;
-    });
+Route::get('/posts/{post:slug}', function (Post $post) {
+   
+    // $post = Post::find($id);
 
     return view('post', [
         'title' => 'Single Post',
